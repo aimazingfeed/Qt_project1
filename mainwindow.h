@@ -32,7 +32,7 @@ private:
     Ui::MainWindow *ui;
     bool con=true;
     QDate cd = QDate::currentDate();
-//    QString path="L:/Projects/Qt_test/" + cd.toString("dd.mm.yyyy") +".sql";
-    QString path = "L:/Projects/Qt_test/06.05.2021.sql";
+    QString path="L:/Projects/Qt_test/" + cd.toString("dd.MM.yyyy") +".sql";
+
 };
 #endif // MAINWINDOW_H

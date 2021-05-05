@@ -35,8 +35,8 @@ string MainWindow::getDataFromFile() {
         file.close();
 
         return str.toStdString();
-    } else  {
-        qDebug() << "Error";
+    } else {
+        qDebug() << path;
         con = false;
     }
 }
