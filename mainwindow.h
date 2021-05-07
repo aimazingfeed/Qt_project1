@@ -6,7 +6,7 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlTableModel>
 #include <QDateTime>
-
+#include <QDir>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,12 +20,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     std::string getDataFromFile();
-    QSqlDatabase db;
-    QSqlTableModel* model;
-    QSqlQueryModel* query;
+    bool dtcomp(QDateTime* left, QDateTime *right);
+    bool isSecondEarlier(QString first, QString second);
+    std::vector<std::string> split(const std::string&, char);
+    std::vector<std::string> sort(const QFileInfoList&);
+
 
 private slots:
-    void on_showButton_clicked();
+    void on_showButton_clicked( );
 
 
 private:
@@ -33,6 +35,9 @@ private:
     bool con=true;
     QDate cd = QDate::currentDate();
     QString path="L:/Projects/Qt_test/" + cd.toString("dd.MM.yyyy") +".sql";
+    QStringList filters = {"*.sql"};
+    QDir dir;
+    std::vector<std::string> pathsFiles;
 
 };
 #endif // MAINWINDOW_H
