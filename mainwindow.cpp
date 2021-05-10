@@ -17,10 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
     QSqlDatabase db;
-
-//    QSqlTableModel* model;
-//    QSqlQueryModel* query;
-
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("L:/Projects/Qt_test/Qt_db.db");
     db.setUserName("root");
@@ -83,8 +79,8 @@ bool MainWindow::isSecondEarlier(QString first, QString second) {
     vector<string> first_tokens = split(strFirst,'.');
     vector<string> second_tokens= split(strSecond,'.');
 
-    for (size_t i = first_tokens.size()-1; i >0 ;i--) {
-        if (stoi(first_tokens[i]) > stoi(second_tokens[i])) {
+    for (size_t i = first_tokens.size(); i >0 ;--i) {
+        if (stoi(first_tokens[i-1]) > stoi(second_tokens[i-1])) {
             return true;
         } else {
             continue;
@@ -114,24 +110,26 @@ std::vector<std::string> MainWindow::split(const std::string& s, char seperator)
 string MainWindow::getDataFromFile() {
 
 QString str="";
-for (auto i:pathsFiles) {
-    QFile file(QString::fromStdString(i));
-    if ((file.exists())&&(file.open(QIODevice::ReadOnly))) {
+    for (size_t i=0;i<pathsFiles.size();i++) {
+        i+=counter;
+        QFile file(QString::fromStdString(pathsFiles[i]));
+        if ((file.exists())&&(file.open(QIODevice::ReadOnly))) {
 
-        while(!file.atEnd()) {
-            str=str+file.readLine();
+            while(!file.atEnd()) {
+                str+=file.readLine();
+            }
+            counter++;
+            str+="; ";
+            file.close();
+            if (counter == pathsFiles.size()) {
+                counter = 0;
+            }
+            return str.toStdString();
         }
-    file.close();
-    } else {
-        qDebug() << path;
+
     }
 }
-return str.toStdString();
-}
 
-bool MainWindow::dtcomp(QDateTime* left, QDateTime *right) {
-  return *left < *right;
-}
 
 
 
@@ -142,13 +140,16 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_showButton_clicked() {
     QSqlQueryModel* query = new QSqlQueryModel;
+    for (size_t i = 0; i<pathsFiles.size(); i++) {
     QString str = QString::fromStdString(getDataFromFile());
     query->setQuery(str);
     QTableView *tv = new QTableView(this);
     tv->setModel(query);
+    }
     ui->tableView->resizeColumnsToContents();
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
     ui->tableView->setModel(query);
+
 
 }

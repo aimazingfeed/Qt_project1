@@ -20,7 +20,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     std::string getDataFromFile();
-    bool dtcomp(QDateTime* left, QDateTime *right);
     bool isSecondEarlier(QString first, QString second);
     std::vector<std::string> split(const std::string&, char);
     std::vector<std::string> sort(const QFileInfoList&);
@@ -31,13 +30,10 @@ private slots:
 
 
 private:
+    int counter = 0;
     Ui::MainWindow *ui;
-    bool con=true;
-    QDate cd = QDate::currentDate();
-    QString path="L:/Projects/Qt_test/" + cd.toString("dd.MM.yyyy") +".sql";
     QStringList filters = {"*.sql"};
     QDir dir;
     std::vector<std::string> pathsFiles;
-
 };
 #endif // MAINWINDOW_H
