@@ -1,3 +1,2 @@
-select * from First_table
-join Second_table on Second_table.id = Second_table.id
-where Second_table.id >2
+insert into first_table (data) values ('double first');
+insert into first_table (data) values ('double second');

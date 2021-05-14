@@ -1,1 +1,1 @@
-select * from first_table
+insert into first_table (data) values ('5.5.2021');
